@@ -50,12 +50,9 @@
 
 		describe('"removeOpFromInput"', function() {
 			it('should remove the desired string from the input objects "opps" property and return that value', function() {
-				// var remOpOne = ;
 				expect(removeOpFromInput(0, inputOne)).toEqual("+");
 				expect(inputOne.opps.length).toEqual(1);
-			})
-		})
+			});
+		});
 	});
-
-
 })();

@@ -10,14 +10,14 @@
   	});
   });
 
-  describe('"addTwo" function', function() {
+  describe('"addNums" function', function() {
   	it('should return a BigNumber object', function() {
-  		expect(addTwo({vals: ["12345", "12345"]})).toEqual(jasmine.any(BigNumber));
+  		expect(addNums({vals: ["12345", "12345"]})).toEqual(jasmine.any(BigNumber));
   	});
 
   	it('should return a BigNumber object with the correct value', function() {
-  		expect(addTwo({vals: ["12345", "12345"]}).c[0]).toEqual(24690);
-  		expect(addTwo({vals: ["12345", "12345"]}).toString()).toEqual("24690");
+  		expect(addNums({vals: ["12345", "12345"]}).c[0]).toEqual(24690);
+  		expect(addNums({vals: ["12345", "12345"]}).toString()).toEqual("24690");
   	});
   });
 

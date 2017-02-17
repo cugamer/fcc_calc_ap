@@ -1,6 +1,6 @@
 function inputConstructor() {
 	var input = {
-		vals:         [],
+		vals: [],
 		opps: []
 	}
 	return input;
@@ -23,7 +23,7 @@ function removeOpFromInput(pos, input) {
 	return input.opps.splice(pos, 1)[0];
 }
 
-function addTwo(inputObj) {
+function addNums(inputObj) {
 	var first = convertToBignum(inputObj.vals[0]);
 	var second = convertToBignum(inputObj.vals[1]);
 	return first.plus(second);
@@ -51,4 +51,12 @@ function divideTwo(inputObj) {
 function convertToBignum(inputNum) {
 	var num = inputNum.toString();
 	return num instanceof BigNumber ? num : new BigNumber(num, 10);
+}
+
+function binOp(inputObj, cb) {
+	var len = inputObj.vals.length;
+	var sum = cb(inputObj);
+	remValFromInput(len - 1, inputObj);
+	inputObj.vals[len - 2] = sum;
+	return sum;
 }
