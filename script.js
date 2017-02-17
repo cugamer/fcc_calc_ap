@@ -1,3 +1,19 @@
+function inputConstructor() {
+	var input = {
+		values:      [],
+		opperations: []
+	}
+	return input;
+}
+
+function addValToInput(val, input) {
+	input.values.push(val);
+}
+
+function remValFromInput(pos, input) {
+	input.values.splice(pos, 1);
+}
+
 function addTwo(inputObj) {
 	var first = convertToBignum(inputObj.val[0]);
 	var second = convertToBignum(inputObj.val[1]);
@@ -24,6 +40,6 @@ function divideTwo(inputObj) {
 
 
 function convertToBignum(inputNum) {
-	var num = inputNum;
+	var num = inputNum.toString();
 	return num instanceof BigNumber ? num : new BigNumber(num, 10);
 }
