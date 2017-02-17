@@ -1,6 +1,6 @@
 function inputConstructor() {
 	var input = {
-		values:      [],
+		val:         [],
 		opperations: []
 	}
 	return input;

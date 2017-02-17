@@ -3,11 +3,11 @@
   var bigNumOne = new BigNumber('123456789');
 
   describe('"convertToBignum" function', function () {
-	it('should return a BigNumber object', function () {
-	  expect(convertToBignum("12345")).toEqual(jasmine.any(BigNumber));
-	  expect(convertToBignum(bigNumOne)).toEqual(jasmine.any(BigNumber));
-	  expect(true).toBe(true);
-	});
+  	it('should return a BigNumber object', function () {
+  	  expect(convertToBignum("12345")).toEqual(jasmine.any(BigNumber));
+  	  expect(convertToBignum(bigNumOne)).toEqual(jasmine.any(BigNumber));
+  	  expect(true).toBe(true);
+  	});
   });
 
   describe('"addTwo" function', function() {
