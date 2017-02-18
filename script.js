@@ -87,3 +87,14 @@ function callOp(inputObj) {
 	var result = binOp(inputObj, oppFunc);
 	return result;
 }
+
+// -----------------Capture user input------------------------
+var buttons = document.querySelectorAll(".calc-btn");
+function getButtonVal() {
+	var val = this.dataset.button;
+	console.log(val)
+}
+
+buttons.forEach(function(btn){
+	btn.addEventListener('click', getButtonVal)
+});
