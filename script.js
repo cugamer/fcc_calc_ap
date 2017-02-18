@@ -30,21 +30,21 @@ function addNums(inputObj) {
 	return first.plus(second);
 }
 
-function subtractTwo(inputObj) {
+function subtractNums(inputObj) {
 	var len = inputObj.vals.length
 	var first = convertToBignum(inputObj.vals[len - 2]);
 	var second = convertToBignum(inputObj.vals[len - 1]);
 	return first.minus(second);
 }
 
-function multiplyTwo(inputObj) {
+function multiplyNums(inputObj) {
 	var len = inputObj.vals.length
 	var first = convertToBignum(inputObj.vals[len - 2]);
 	var second = convertToBignum(inputObj.vals[len - 1]);
 	return first.times(second);
 }
 
-function divideTwo(inputObj) {
+function divideNums(inputObj) {
 	var len = inputObj.vals.length
 	var first = convertToBignum(inputObj.vals[len - 2]);
 	var second = convertToBignum(inputObj.vals[len - 1]);
