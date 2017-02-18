@@ -12,6 +12,7 @@
 			expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
 			expect(inputOne.vals[0].c[0]).toEqual(110);
 			expect(inputOne.vals[0].toString()).toEqual("110");
+			expect(inputOne.vals.length).toEqual(1);
 		});
 	});
 

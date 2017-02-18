@@ -57,10 +57,10 @@ function divideNums(inputObj) {
 }
 
 function binOp(inputObj, cb) {
-	var len = inputObj.vals.length;
 	var sum = cb(inputObj);
-	remValFromInput(len - 1, inputObj);
-	inputObj.vals[len - 2] = sum;
+	inputObj.vals.pop()
+	inputObj.vals.pop();
+	inputObj.vals.push(sum);
 	return sum;
 }
 
