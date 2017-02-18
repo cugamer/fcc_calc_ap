@@ -63,3 +63,27 @@ function binOp(inputObj, cb) {
 	inputObj.vals[len - 2] = sum;
 	return sum;
 }
+
+function selectOperation(inputObj) {
+	var mostRecent = inputObj.opps.pop();
+	switch(mostRecent) {
+		case '+':
+			return addNums;
+		case '-':
+			return subtractNums;
+		case 'X':
+			return multiplyNums;
+		case '/':
+			return divideNums;
+		default:
+			return "Opperator value not found";
+	}
+}
+
+function callOp(inputObj) {
+	var opp = inputObj;
+	var oppFunc = selectOperation(opp);
+	var binOpps = ['+', '-', 'X', '/'];
+	var result = binOp(inputObj, oppFunc);
+	return result;
+}
