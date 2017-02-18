@@ -1,7 +1,7 @@
-function inputConstructor() {
+function inputConstructor(vals, opps) {
 	var input = {
-		vals: [],
-		opps: []
+		vals: vals || [],
+		opps: opps || []
 	}
 	return input;
 }
