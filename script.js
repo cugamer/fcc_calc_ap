@@ -90,11 +90,20 @@ function callOp(inputObj) {
 
 // -----------------Capture user input------------------------
 var buttons = document.querySelectorAll(".calc-btn");
-function getButtonVal() {
-	var val = this.dataset.button;
-	console.log(val)
+function getButtonVal(btn) {
+	return btn.dataset.button;
 }
 
 buttons.forEach(function(btn){
-	btn.addEventListener('click', getButtonVal)
+	btn.addEventListener('click', useBtnInput)
 });
+
+currentNumStr = "";
+
+function useBtnInput() {
+	val = getButtonVal(this);
+	if(val.match(/(\d)/)) {
+		currentNumStr += val;
+		console.log(currentNumStr);
+	}
+}
