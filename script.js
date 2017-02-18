@@ -24,26 +24,30 @@ function removeOpFromInput(pos, input) {
 }
 
 function addNums(inputObj) {
-	var first = convertToBignum(inputObj.vals[0]);
-	var second = convertToBignum(inputObj.vals[1]);
+	var len = inputObj.vals.length
+	var first = convertToBignum(inputObj.vals[len - 2]);
+	var second = convertToBignum(inputObj.vals[len - 1]);
 	return first.plus(second);
 }
 
 function subtractTwo(inputObj) {
-	var first = convertToBignum(inputObj.vals[0]);
-	var second = convertToBignum(inputObj.vals[1]);
+	var len = inputObj.vals.length
+	var first = convertToBignum(inputObj.vals[len - 2]);
+	var second = convertToBignum(inputObj.vals[len - 1]);
 	return first.minus(second);
 }
 
 function multiplyTwo(inputObj) {
-	var first = convertToBignum(inputObj.vals[0]);
-	var second = convertToBignum(inputObj.vals[1]);
+	var len = inputObj.vals.length
+	var first = convertToBignum(inputObj.vals[len - 2]);
+	var second = convertToBignum(inputObj.vals[len - 1]);
 	return first.times(second);
 }
 
 function divideTwo(inputObj) {
-	var first = convertToBignum(inputObj.vals[0]);
-	var second = convertToBignum(inputObj.vals[1]);
+	var len = inputObj.vals.length
+	var first = convertToBignum(inputObj.vals[len - 2]);
+	var second = convertToBignum(inputObj.vals[len - 1]);
 	return first.dividedBy(second);
 }
 
