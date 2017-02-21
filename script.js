@@ -1,7 +1,8 @@
-function inputConstructor(vals, opps) {
+function inputConstructor(vals, opps, results) {
 	var input = {
-		vals: vals || [],
-		opps: opps || []
+		vals:       vals || [],
+		opps:       opps || [],
+		results: results || []
 	}
 	return input;
 }
@@ -28,11 +29,15 @@ function removeOpFromInput(pos, input) {
 	return input.opps.splice(pos, 1)[0];
 }
 
+function addResToInput(res, input) {
+	var big = new BigNumber(res);
+	input.results.push(big);
+}
+
 function addNums(inputObj) {
 	var len = inputObj.vals.length
 	var first = inputObj.vals[len - 2];
 	var second = inputObj.vals[len - 1];
-	// console.log(first, second)
 	return first.plus(second);
 }
 
@@ -59,9 +64,9 @@ function divideNums(inputObj) {
 
 function binOp(inputObj, cb) {
 	var sum = cb(inputObj);
-	inputObj.vals.pop()
-	inputObj.vals.pop();
-	inputObj.vals.push(sum);
+	// inputObj.vals.pop();
+	// inputObj.vals.pop();
+	addResToInput(sum, inputObj);
 	return sum;
 }
 
@@ -90,8 +95,6 @@ function callOp(inputObj) {
 }
 
 // -----------------Capture user input------------------------
-
-
 currentNumStr = "";
 currentInput = inputConstructor();
 
@@ -141,6 +144,7 @@ function useInput(input) {
 		callOp(currentInput);
 		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 	}
+	// console.log("Current Number", currentNumStr);
 }
 
 function updateDisplay(val) {
@@ -152,21 +156,27 @@ function getButtonVal(btn) {
 	return btn.dataset.button;
 }
 
-var disp = document.querySelector('.display');
-var dispFocus = false;
-disp.addEventListener("focus", function() { dispFocus = true; });
-disp.addEventListener("blur", function() { dispFocus = false; });
-disp.addEventListener('input', function(e) {
-	var input = this.value;
-	if(input.match(/\d*\.*\d+/)) {
-		if(input[0] === ".") {
-			input = "0" + input;
-		}
-		currentNumStr = input;
-	}
-});
+// var disp = document.querySelector('.display');
+// var dispFocus = false;
+// disp.addEventListener("focus", function() { dispFocus = true; });
+// disp.addEventListener("blur", function() { dispFocus = false; });
+// disp.addEventListener('input', function(e) {
+// 	console.log(this.value)
+// 	var input = this.value;
+// 	if(input.match(/^\d*\.*\d*$/)) {
+// 		if(input[0] === ".") {
+// 			input = "0" + input;
+// 		}
+// 		currentNumStr = input;
+// 	}
+// 	updateDisplay(currentNumStr);
 
-document.addEventListener('keyup', useKeyInput);
-buttons.forEach(function(btn){
-	btn.addEventListener('click', useBtnInput)
-});
+// 	console.log("Current Number", currentNumStr);
+// });
+
+// document.addEventListener('keyup', useKeyInput);
+// buttons.forEach(function(btn){
+// 	btn.addEventListener('click', useBtnInput)
+// });
+
+// 1234
