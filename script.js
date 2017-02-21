@@ -141,7 +141,7 @@ function useInput(input) {
 
 function updateDisplay(val) {
 	var disp = document.querySelector('.display');
-	disp.textContent = val;
+	disp.value = val;
 }
 
 var buttons = document.querySelectorAll(".calc-btn");
