@@ -111,18 +111,22 @@ function updateInputVals(inputObj) {
 }
 
 function useBtnInput() {
-	val = getButtonVal(this);
-	useInput(val)
+	if(!dispFocus) {
+		val = getButtonVal(this);
+		useInput(val);
+	}
 }
 
 function useKeyInput(e) {
-	var key = e.key;
-	if(key === "Enter") {
-		key = "="; 
-	} else if (key === "*") {
-		key = "X";
+	if(!dispFocus) {
+		var key = e.key;
+		if(key === "Enter") {
+			key = "="; 
+		} else if (key === "*") {
+			key = "X";
+		}
+		useInput(key);
 	}
-	useInput(key)
 }
 
 function useInput(input) {
@@ -140,7 +144,6 @@ function useInput(input) {
 }
 
 function updateDisplay(val) {
-	var disp = document.querySelector('.display');
 	disp.value = val;
 }
 
@@ -149,8 +152,21 @@ function getButtonVal(btn) {
 	return btn.dataset.button;
 }
 
-buttons.forEach(function(btn){
-	btn.addEventListener('click', useBtnInput)
+var disp = document.querySelector('.display');
+var dispFocus = false;
+disp.addEventListener("focus", function() { dispFocus = true; });
+disp.addEventListener("blur", function() { dispFocus = false; });
+disp.addEventListener('input', function(e) {
+	var input = this.value;
+	if(input.match(/\d*\.*\d+/)) {
+		if(input[0] === ".") {
+			input = "0" + input;
+		}
+		currentNumStr = input;
+	}
 });
 
 document.addEventListener('keyup', useKeyInput);
+buttons.forEach(function(btn){
+	btn.addEventListener('click', useBtnInput)
+});
