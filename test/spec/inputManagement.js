@@ -55,4 +55,18 @@
 			});
 		});
 	});
+
+	describe('"currentNumStringBuilder"', function() {
+		it('should add input value to new string when given no working string', function() {
+			expect(currentNumStringBuilder('1')).toEqual('1');
+		});
+
+		it('should add input value to working string when given one', function() {
+			expect(currentNumStringBuilder('1', '234')).toEqual('2341');
+		});
+
+		it('should add a zero prior to the decimal point when the decimal is the first input', function() {
+			expect(currentNumStringBuilder('.')).toEqual('0.1');
+		});
+	});
 })();
