@@ -32,6 +32,7 @@ function addNums(inputObj) {
 	var len = inputObj.vals.length
 	var first = inputObj.vals[len - 2];
 	var second = inputObj.vals[len - 1];
+	// console.log(first, second)
 	return first.plus(second);
 }
 
@@ -83,12 +84,66 @@ function selectOperation(inputObj) {
 function callOp(inputObj) {
 	var opp = inputObj;
 	var oppFunc = selectOperation(opp);
-	var binOpps = ['+', '-', 'X', '/'];
+	// var binOpps = ['+', '-', 'X', '/'];
 	var result = binOp(inputObj, oppFunc);
 	return result;
 }
 
 // -----------------Capture user input------------------------
+
+
+currentNumStr = "";
+currentInput = inputConstructor();
+
+function currentNumStringBuilder(nextInput, currentString) {
+	var current = currentString || "";
+	if(nextInput === "." && current.length === 0) {
+		current += "0.1";
+	} else {
+		current += nextInput;
+	}
+	return current;
+}
+
+function updateInputVals(inputObj) {
+	inputObj.vals.push(convertToBignum(currentNumStr));
+	currentNumStr = "";
+}
+
+function useBtnInput() {
+	val = getButtonVal(this);
+	useInput(val)
+}
+
+function useKeyInput(e) {
+	var key = e.key;
+	if(key === "Enter") {
+		key = "="; 
+	} else if (key === "*") {
+		key = "X";
+	}
+	useInput(key)
+}
+
+function useInput(input) {
+	if(input.match(/(\d|\.)/)) {
+		currentNumStr = currentNumStringBuilder(input, currentNumStr);
+		updateDisplay(currentNumStr);
+	} else if (input.match(/(X|\/|-|\+)/)) {
+		updateInputVals(currentInput);
+		currentInput.opps.push(input);
+	} else if (input.match(/=/)) {
+		updateInputVals(currentInput);
+		callOp(currentInput);
+		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+	}
+}
+
+function updateDisplay(val) {
+	var disp = document.querySelector('.display');
+	disp.textContent = val;
+}
+
 var buttons = document.querySelectorAll(".calc-btn");
 function getButtonVal(btn) {
 	return btn.dataset.button;
@@ -98,12 +153,4 @@ buttons.forEach(function(btn){
 	btn.addEventListener('click', useBtnInput)
 });
 
-currentNumStr = "";
-
-function useBtnInput() {
-	val = getButtonVal(this);
-	if(val.match(/(\d)/)) {
-		currentNumStr += val;
-		console.log(currentNumStr);
-	}
-}
+document.addEventListener('keyup', useKeyInput);
