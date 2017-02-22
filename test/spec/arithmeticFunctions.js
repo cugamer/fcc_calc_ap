@@ -36,6 +36,11 @@
   		expect(subtractNums({vals: [bigNumTwo, bigNumThree]}).c[0]).toEqual(12344);
   		expect(subtractNums({vals: [bigNumTwo, bigNumThree]}).toString()).toEqual("12344");
   	});
+
+    it('when reverse is true should return a BigNumber object with the correct value with order reversed', function() {
+      expect(subtractNums({vals: [bigNumTwo, bigNumOne]}, true).c[0]).toEqual(123444444);
+      expect(subtractNums({vals: [bigNumTwo, bigNumOne]}, true).toString()).toEqual("123444444");
+    })
   });
 
   describe('"multiplyNums" function', function() {
@@ -72,5 +77,14 @@
   		expect(divideNums({vals: [bigNumTwo, bigNumZero]}).c).toBeNull();
   		expect(divideNums({vals: [bigNumTwo, bigNumZero]}).toString()).toEqual("Infinity");
   	});
+
+    it('when reverse is true should return a BigNumber object with the correct value with order reversed', function() {
+      expect(divideNums({vals: [bigNumTwo, bigNumTwo]}, true).c[0]).toEqual(1);
+      expect(divideNums({vals: [bigNumTwo, bigNumTwo]}, true).toString()).toEqual("1");
+      expect(divideNums({vals: [bigNumSix, bigNumFive]}, true).c.length).toEqual(2);
+      expect(divideNums({vals: [bigNumSix, bigNumFive]}, true).c[0]).toEqual(2222);
+      expect(divideNums({vals: [bigNumSix, bigNumFive]}, true).c[1]).toEqual(22222222222222);
+      expect(divideNums({vals: [bigNumSix, bigNumFive]}, true).toString()).toEqual("222222222222222222");
+    });
   });
 })();

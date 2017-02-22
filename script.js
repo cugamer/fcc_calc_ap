@@ -1,8 +1,7 @@
-function inputConstructor(vals, opps, results) {
+function inputConstructor(vals, opps) {
 	var input = {
 		vals:       vals || [],
-		opps:       opps || [],
-		results: results || []
+		opps:       opps || []
 	}
 	return input;
 }
@@ -29,11 +28,6 @@ function removeOpFromInput(pos, input) {
 	return input.opps.splice(pos, 1)[0];
 }
 
-function addResToInput(res, input) {
-	var big = new BigNumber(res);
-	input.results.push(big);
-}
-
 function addNums(inputObj) {
 	var len = inputObj.vals.length
 	var first = inputObj.vals[len - 2];
@@ -41,11 +35,11 @@ function addNums(inputObj) {
 	return first.plus(second);
 }
 
-function subtractNums(inputObj) {
+function subtractNums(inputObj, reverseOrder) {
 	var len = inputObj.vals.length
 	var first = inputObj.vals[len - 2];
 	var second = inputObj.vals[len - 1];
-	return first.minus(second);
+	return reverseOrder ? second.minus(first) : first.minus(second);
 }
 
 function multiplyNums(inputObj) {
@@ -55,23 +49,21 @@ function multiplyNums(inputObj) {
 	return first.times(second);
 }
 
-function divideNums(inputObj) {
+function divideNums(inputObj, reverseOrder) {
 	var len = inputObj.vals.length
 	var first = inputObj.vals[len - 2];
 	var second = inputObj.vals[len - 1];
-	return first.dividedBy(second);
+	return reverseOrder ? second.dividedBy(first) : first.dividedBy(second);
 }
 
-function binOp(inputObj, cb) {
-	var sum = cb(inputObj);
-	// inputObj.vals.pop();
-	// inputObj.vals.pop();
-	addResToInput(sum, inputObj);
-	return sum;
+function binOp(inputObj, cb, reverseOrder) {
+	var result = cb(inputObj, reverseOrder);
+	inputObj.vals[resultsPos] = result;
+	return result;
 }
 
 function selectOperation(inputObj) {
-	var mostRecent = inputObj.opps.pop();
+	var mostRecent = inputObj.opps[inputObj.opps.length - 1]
 	switch(mostRecent) {
 		case '+':
 			return addNums;
@@ -86,17 +78,19 @@ function selectOperation(inputObj) {
 	}
 }
 
-function callOp(inputObj) {
+function callOp(inputObj, reverseOrder) {
 	var opp = inputObj;
 	var oppFunc = selectOperation(opp);
-	// var binOpps = ['+', '-', 'X', '/'];
-	var result = binOp(inputObj, oppFunc);
+	var result = binOp(inputObj, oppFunc, reverseOrder);
 	return result;
 }
 
 // -----------------Capture user input------------------------
-currentNumStr = "";
-currentInput = inputConstructor();
+var currentNumStr = "";
+var resultsPos = 1;
+var currentInput = inputConstructor();
+var recursive = false;
+var reverseOrder = false;
 
 function currentNumStringBuilder(nextInput, currentString) {
 	var current = currentString || "";
@@ -113,7 +107,7 @@ function updateInputVals(inputObj) {
 	currentNumStr = "";
 }
 
-function useBtnInput() {
+function useButtonInput() {
 	if(!dispFocus) {
 		val = getButtonVal(this);
 		useInput(val);
@@ -132,19 +126,61 @@ function useKeyInput(e) {
 	}
 }
 
+function checkIfReady(inputObj) {
+	var binOpps = /(X|\/|-|\+)/;
+	if(inputObj.vals.length >= 1 && 
+		inputObj.opps.length >= 1 &&
+		inputObj.opps[inputObj.opps.length - 1].match(/(X|\/|-|\+)/)) {
+		return true;
+	}
+	return false;
+}
+
 function useInput(input) {
 	if(input.match(/(\d|\.)/)) {
 		currentNumStr = currentNumStringBuilder(input, currentNumStr);
 		updateDisplay(currentNumStr);
-	} else if (input.match(/(X|\/|-|\+)/)) {
-		updateInputVals(currentInput);
-		currentInput.opps.push(input);
-	} else if (input.match(/=/)) {
-		updateInputVals(currentInput);
-		callOp(currentInput);
+	} else if(input.match(/(X|\/|-|\+)/)) {
+		if(currentNumStr.length > 0) {
+			if(checkIfReady(currentInput)) {
+				if(recursive) {
+					resultsPos++;
+					recursive = false;
+				}
+				addValToInput(currentNumStr, currentInput);
+				callOp(currentInput);
+				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+			} else {
+				addValToInput(currentNumStr, currentInput);			
+			}
+			resultsPos++;
+			addOpToInput(input, currentInput);
+		}
+		// updateInputVals(currentInput);
+		// if(currentInput.vals.length < 2) {
+		// } else {
+		// 	if(currentNumStr.length === 0) {
+		// 		updateInputVals(currentInput);
+		// 	callOp(currentInput);
+		// 	updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		// 	}
+		// }
+		// currentInput.opps.push(input);
+	} else if (input.match(/=/) && currentInput.vals.length >= 1) {
+		var oppReversers = /(\/|-)/
+		if(!recursive) {
+			updateInputVals(currentInput);
+			recursive = true;
+		} else if(currentInput.opps[currentInput.opps.length - 1].match(oppReversers)) {
+			reverseOrder = true;
+		} else {
+			reverseOrder = false;
+		}
+		checkIfReady = false;
+		callOp(currentInput, reverseOrder);
 		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		console.log(currentInput)
 	}
-	// console.log("Current Number", currentNumStr);
 }
 
 function updateDisplay(val) {
@@ -156,27 +192,27 @@ function getButtonVal(btn) {
 	return btn.dataset.button;
 }
 
-// var disp = document.querySelector('.display');
-// var dispFocus = false;
-// disp.addEventListener("focus", function() { dispFocus = true; });
-// disp.addEventListener("blur", function() { dispFocus = false; });
-// disp.addEventListener('input', function(e) {
-// 	console.log(this.value)
-// 	var input = this.value;
-// 	if(input.match(/^\d*\.*\d*$/)) {
-// 		if(input[0] === ".") {
-// 			input = "0" + input;
-// 		}
-// 		currentNumStr = input;
-// 	}
-// 	updateDisplay(currentNumStr);
+var disp = document.querySelector('.display');
+var dispFocus = false;
+disp.addEventListener("focus", function() { dispFocus = true; });
+disp.addEventListener("blur", function() { dispFocus = false; });
+disp.addEventListener('input', function(e) {
+	// console.log(this.value)
+	var input = this.value;
+	if(input.match(/^\d*\.*\d*$/)) {
+		if(input[0] === ".") {
+			input = "0" + input;
+		}
+		currentNumStr = input;
+	}
+	updateDisplay(currentNumStr);
 
-// 	console.log("Current Number", currentNumStr);
-// });
+	// console.log("Current Number", currentNumStr);
+});
 
-// document.addEventListener('keyup', useKeyInput);
-// buttons.forEach(function(btn){
-// 	btn.addEventListener('click', useBtnInput)
-// });
+document.addEventListener('keyup', useKeyInput);
+buttons.forEach(function(btn){
+	btn.addEventListener('click', useButtonInput)
+});
 
-// 1234
+// 123456789

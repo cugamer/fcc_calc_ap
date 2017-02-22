@@ -15,10 +15,10 @@
 			expect(addOutput).toEqual(jasmine.any(BigNumber));
 			expect(addOutput.c[0]).toEqual(110);
 			expect(addOutput.toString()).toEqual("110");
-			expect(inputOne.results[0]).toEqual(jasmine.any(BigNumber));
-			expect(inputOne.results[0].c[0]).toEqual(110);
-			expect(inputOne.results[0].toString()).toEqual("110");
-			expect(inputOne.results.length).toEqual(1);
+			expect(inputOne.vals[1]).toEqual(jasmine.any(BigNumber));
+			expect(inputOne.vals[1].c[0]).toEqual(110);
+			expect(inputOne.vals[1].toString()).toEqual("110");
+			expect(inputOne.vals.length).toEqual(2);
 		});
 	});
 

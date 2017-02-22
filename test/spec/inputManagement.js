@@ -69,4 +69,23 @@
 			expect(currentNumStringBuilder('.')).toEqual('0.1');
 		});
 	});
+
+	describe('"checkIfReady" function', function() {
+		var inputTwo = inputConstructor();
+		// it('should return false for binary when input object has no values or opperations', function() {
+		// 	expect(checkIfReady(inputTwo)).toEqual(false);
+		// });
+		var inputThree = inputConstructor([111]);
+		it('should return false for binary when input object has one value and no opperations', function() {
+			expect(checkIfReady(inputThree)).toEqual(false);
+		});
+		var inputFour = inputConstructor([111, 222]);
+		it('should return false for binary when input object has no opperations', function() {
+			expect(checkIfReady(inputFour)).toEqual(false);
+		});
+		var inputFive = inputConstructor([111, 222], ["X"]);
+		it('should return true for binary when input object has values and opperations', function() {
+			expect(checkIfReady(inputFive)).toEqual(true);
+		});
+	});
 })();
