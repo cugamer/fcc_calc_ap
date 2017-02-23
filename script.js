@@ -1,7 +1,8 @@
 function inputConstructor(vals, opps) {
 	var input = {
-		vals:       vals || [],
-		opps:       opps || []
+		vals:         vals || [],
+		opps:         opps || [],
+		lastInputVal: null
 	}
 	return input;
 }
@@ -142,44 +143,33 @@ function useInput(input) {
 		updateDisplay(currentNumStr);
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
-			if(checkIfReady(currentInput)) {
-				if(recursive) {
-					resultsPos++;
-					recursive = false;
-				}
-				addValToInput(currentNumStr, currentInput);
-				callOp(currentInput);
-				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-			} else {
-				addValToInput(currentNumStr, currentInput);			
-			}
-			resultsPos++;
+		// 	if(checkIfReady(currentInput)) {
+		// 		if(recursive) {
+		// 			resultsPos++;
+		// 			recursive = false;
+		// 		}
+		// 		addValToInput(currentNumStr, currentInput);
+		// 		callOp(currentInput);
+		// 		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		// 	} else {
+		// 		addValToInput(currentNumStr, currentInput);			
+		// 	}
 			addOpToInput(input, currentInput);
 		}
-		// updateInputVals(currentInput);
-		// if(currentInput.vals.length < 2) {
-		// } else {
-		// 	if(currentNumStr.length === 0) {
-		// 		updateInputVals(currentInput);
-		// 	callOp(currentInput);
-		// 	updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-		// 	}
-		// }
-		// currentInput.opps.push(input);
 	} else if (input.match(/=/) && currentInput.vals.length >= 1) {
-		var oppReversers = /(\/|-)/
-		if(!recursive) {
-			updateInputVals(currentInput);
-			recursive = true;
-		} else if(currentInput.opps[currentInput.opps.length - 1].match(oppReversers)) {
-			reverseOrder = true;
-		} else {
-			reverseOrder = false;
-		}
-		checkIfReady = false;
-		callOp(currentInput, reverseOrder);
-		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-		console.log(currentInput)
+		// var oppReversers = /(\/|-)/
+		// if(!recursive) {
+		// 	updateInputVals(currentInput);
+		// 	recursive = true;
+		// } else if(currentInput.opps[currentInput.opps.length - 1].match(oppReversers)) {
+		// 	reverseOrder = true;
+		// } else {
+		// 	reverseOrder = false;
+		// }
+		// checkIfReady = false;
+		// callOp(currentInput, reverseOrder);
+		// updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		// console.log(currentInput)
 	}
 }
 
