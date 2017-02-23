@@ -168,18 +168,36 @@ function useInput(input) {
 				addValToInput(currentNumStr, currentInput, true);				
 			}
 			currentNumStr = "";
-			addOpToInput(input, currentInput);
-		} else {
-			return;
 		}
+			console.log("input", input)
+			addOpToInput(input, currentInput);
 	} else if(input.match(/=/)) {
 		if(currentNumStr.length > 0) {
-			addValToInput(currentNumStr, currentInput, false);
+			if(recursive) {
+				console.log("4")
+				addValToInput(currentNumStr, currentInput, false);
+				callOp(currentInput);
+				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+			} else if (currentInput.opps.length > 0) {
+				console.log("5")
+				addValToInput(currentNumStr, currentInput, true);
+				callOp(currentInput);
+				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+				recursive = true;
+				// recursive = true;
+			} 
+			// addValToInput(currentNumStr, currentInput, true);
 			currentInput.replacelast = true;
+			// recursive = false;
+			currentNumStr = "";
+		} else {
+			console.log("6")
+			callOp(currentInput);
+			updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+			// recursive = false;
 		}
-		callOp(currentInput);
-		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-		currentNumStr = "";
+			// callOp(currentInput);
+			// updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 	}
 }
 
