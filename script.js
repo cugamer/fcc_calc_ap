@@ -63,11 +63,7 @@ function divideNums(inputObj, reverseOrder) {
 
 function binOp(inputObj, cb, reverseOrder) {
 	var result = cb(inputObj, reverseOrder);
-	// if(inputObj.replacelast) {
 		inputObj.vals[inputObj.vals.length - 1] = result;
-	// } else {
-		// inputObj.vals.push(result);
-	// }
 	return result;
 }
 
@@ -151,47 +147,32 @@ function useInput(input) {
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
 			if(recursive) {
-				console.log("1")
 				addValToInput(currentNumStr, currentInput, false);
 				callOp(currentInput);
 				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 			} else if (currentInput.opps.length > 0) {
-				console.log("2")
 				addValToInput(currentNumStr, currentInput, true);
 				callOp(currentInput);
 				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 				recursive = true;
 			} else {
-				console.log("3")
 				addValToInput(currentNumStr, currentInput, true);				
 			}
 			currentNumStr = "";
 		}
-			addOpToInput(input, currentInput);
+		addOpToInput(input, currentInput);
 	} else if(input.match(/=/)) {
 		if(currentNumStr.length > 0) {
 			if(recursive) {
-				console.log("4")
 				addValToInput(currentNumStr, currentInput, false);
-				callOp(currentInput);
-				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 			} else if (currentInput.opps.length > 0) {
-				console.log("5")
 				addValToInput(currentNumStr, currentInput, true);
-				callOp(currentInput);
-				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 				recursive = true;
 			} 
-			// currentInput.replacelast = true;
 			currentNumStr = "";
-		} else {
-			console.log("6")
-			callOp(currentInput);
-			updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-			// recursive = false;
 		}
-			// callOp(currentInput);
-			// updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		callOp(currentInput);
+		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 	}
 }
 
