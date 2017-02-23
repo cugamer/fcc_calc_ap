@@ -190,7 +190,6 @@ var dispFocus = false;
 disp.addEventListener("focus", function() { dispFocus = true; });
 disp.addEventListener("blur", function() { dispFocus = false; });
 disp.addEventListener('input', function(e) {
-	// console.log(this.value)
 	var input = this.value;
 	if(input.match(/^\d*\.*\d*$/)) {
 		if(input[0] === ".") {
@@ -199,8 +198,6 @@ disp.addEventListener('input', function(e) {
 		currentNumStr = input;
 	}
 	updateDisplay(currentNumStr);
-
-	// console.log("Current Number", currentNumStr);
 });
 
 document.addEventListener('keyup', useKeyInput);
@@ -208,4 +205,3 @@ buttons.forEach(function(btn){
 	btn.addEventListener('click', useButtonInput)
 });
 
-// 123456789
