@@ -15,21 +15,36 @@
 	describe('When updating an input objects values', function() {
 		var inputOne = inputConstructor();
 		describe('"addValToInput function', function() {
-			it('should add a BigNumber object to an input objects "lastInputVal" property', function() {
-				addValToInput(55, inputOne);
+			it('should add a BigNumber object to an input objects "lastInputVal" property and update the "vals" property when updateVals is true', function() {
+				addValToInput(55, inputOne, true);
 				expect(inputOne.vals.length).toEqual(0);
 				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.lastInputVal.c[0]).toEqual(55);
 
-				addValToInput(66, inputOne);
+				addValToInput(66, inputOne, true);
 				expect(inputOne.vals.length).toEqual(1);
 				expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.vals[0].c[0]).toEqual(55);
 				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.lastInputVal.c[0]).toEqual(66);
 			});
-			// var inputTwo = inputConstructor();
-			// it('should ')
+
+			var inputTwo = inputConstructor();
+			it('should add a BigNumber object to an input objects "lastInputVal" property but not  update the "vals" property when updateVals is false', function() {
+				addValToInput(55, inputTwo, true);
+				addValToInput(66, inputTwo, true);
+				expect(inputTwo.vals.length).toEqual(1);
+				expect(inputTwo.vals[0].c[0]).toEqual(55);
+				expect(inputTwo.lastInputVal).toEqual(jasmine.any(BigNumber));
+				expect(inputTwo.lastInputVal.c[0]).toEqual(66);
+
+				addValToInput(77, inputOne, false);
+				expect(inputOne.vals.length).toEqual(1);
+				expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
+				expect(inputOne.vals[0].c[0]).toEqual(55);
+				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
+				expect(inputOne.lastInputVal.c[0]).toEqual(77);
+			});
 		});
 
 

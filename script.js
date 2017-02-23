@@ -2,7 +2,8 @@ function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
 		vals:         vals || [],
 		opps:         opps || [],
-		lastInputVal: lastInputVal || null
+		lastInputVal: lastInputVal || null,
+		replacelast:  false
 	}
 	return input;
 }
@@ -12,12 +13,13 @@ function convertToBignum(inputNum) {
 	return num instanceof BigNumber ? num : new BigNumber(num, 10);
 }
 
-function addValToInput(val, input) {
+function addValToInput(val, input, updateVals) {
 	var big = new BigNumber(val);
-	if(input.lastInputVal != null) {
+	if(input.lastInputVal != null && updateVals) {
 		input.vals.push(input.lastInputVal);
 	}
-	input.lastInputVal = big;	
+	input.lastInputVal = big;
+	console.log(input)
 }
 
 function remValFromInput(pos, input) {
@@ -63,7 +65,11 @@ function divideNums(inputObj, reverseOrder) {
 
 function binOp(inputObj, cb, reverseOrder) {
 	var result = cb(inputObj, reverseOrder);
-	inputObj.vals.push(result);
+	if(inputObj.replacelast) {
+		inputObj.vals[inputObj.vals.length - 1] = result;
+	} else {
+		inputObj.vals.push(result);
+	}
 	return result;
 }
 
@@ -97,14 +103,12 @@ var recursive = false;
 var reverseOrder = false;
 
 function currentNumStringBuilder(nextInput, currentString) {
-	// console.log("in func", currentString)
 	var current = currentString || "";
 	if(nextInput === "." && current.length === 0) {
 		current = "0.";
 	} else {
 		current += nextInput;
 	}
-	// console.log("in func", current)
 	return current;
 }
 
@@ -145,11 +149,12 @@ function checkIfReady(inputObj) {
 function useInput(input) {
 	if(input.match(/(\d|\.)/)) {
 		currentNumStr = currentNumStringBuilder(input, currentNumStr);
-		console.log(currentNumStr)
 		updateDisplay(currentNumStr);
+		currentNumStr = "";
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
-			addValToInput(currentNumStr, currentInput);
+			currentInput.replacelast = true;
+			addValToInput(currentNumStr, currentInput, true);
 			if(recursive) {
 				callOp(currentInput);
 				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
@@ -157,27 +162,15 @@ function useInput(input) {
 			recursive = true;
 		}
 		addOpToInput(input, currentInput);
-	} else if (input.match(/=/)) {
-		// var oppReversers = /(\/|-)/
-		// if(!recursive) {
-		// 	updateInputVals(currentInput);
-		// 	recursive = true;
-		// } else if(currentInput.opps[currentInput.opps.length - 1].match(oppReversers)) {
-		// 	reverseOrder = true;
-		// } else {
-		// 	reverseOrder = false;
-		// }
-		// checkIfReady = false;
-		// callOp(currentInput, reverseOrder);
+	} else if(input.match(/=/)) {
 		if(currentNumStr.length > 0) {
-			console.log("tripped")
-			addValToInput(currentNumStr, currentInput);
+			addValToInput(currentNumStr, currentInput, false);
+			currentInput.replacelast = true;
 		}
 		callOp(currentInput);
 		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 		currentNumStr = "";
 	}
-		// console.table(currentInput.vals)
 }
 
 function updateDisplay(val) {
