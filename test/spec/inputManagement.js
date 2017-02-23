@@ -15,25 +15,27 @@
 	describe('When updating an input objects values', function() {
 		var inputOne = inputConstructor();
 		describe('"addValToInput function', function() {
-			it('should add a BigNumber object to an input objects "vals" property', function() {
+			it('should add a BigNumber object to an input objects "lastInputVal" property', function() {
 				addValToInput(55, inputOne);
+				expect(inputOne.vals.length).toEqual(0);
+				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
+				expect(inputOne.lastInputVal.c[0]).toEqual(55);
+
+				addValToInput(66, inputOne);
 				expect(inputOne.vals.length).toEqual(1);
 				expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.vals[0].c[0]).toEqual(55);
-
-				addValToInput("55", inputOne);
-				expect(inputOne.vals.length).toEqual(2);
-				expect(inputOne.vals[1]).toEqual(jasmine.any(BigNumber));
-				expect(inputOne.vals[1].c[0]).toEqual(55);
+				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
+				expect(inputOne.lastInputVal.c[0]).toEqual(66);
 			});
 		});
 
 		describe('"remValFromInput" function', function() {
 			it('should remove items from the input objects "val" property', function() {
-				var removedOne = remValFromInput(1, inputOne);
+				var removedOne = remValFromInput(0, inputOne);
 				expect(removedOne).toEqual(jasmine.any(BigNumber));
 				expect(removedOne.c[0]).toEqual(55);
-				expect(inputOne.vals.length).toEqual(1);
+				expect(inputOne.vals.length).toEqual(0);
 			});
 		});
 

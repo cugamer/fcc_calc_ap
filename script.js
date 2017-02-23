@@ -1,15 +1,18 @@
-function inputConstructor(vals, opps) {
+function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
 		vals:         vals || [],
 		opps:         opps || [],
-		lastInputVal: null
+		lastInputVal: lastInputVal || null
 	}
 	return input;
 }
 
-function addValToInput(vals, input) {
-	var big = new BigNumber(vals);
-	input.vals.push(big);
+function addValToInput(val, input) {
+	var big = new BigNumber(val);
+	if(input.lastInputVal != null) {
+		input.vals.push(input.lastInputVal);
+	}
+	input.lastInputVal = big;	
 }
 
 function remValFromInput(pos, input) {
@@ -30,17 +33,17 @@ function removeOpFromInput(pos, input) {
 }
 
 function addNums(inputObj) {
+	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
-	var first = inputObj.vals[len - 2];
-	var second = inputObj.vals[len - 1];
-	return first.plus(second);
+	var workingVal = inputObj.vals[len - 1];
+	return lastInputVal.plus(workingVal);
 }
 
 function subtractNums(inputObj, reverseOrder) {
+	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
-	var first = inputObj.vals[len - 2];
-	var second = inputObj.vals[len - 1];
-	return reverseOrder ? second.minus(first) : first.minus(second);
+	var workingVal = inputObj.vals[len - 1];
+	return !reverseOrder ? workingVal.minus(lastInputVal) : lastInputVal.minus(workingVal);
 }
 
 function multiplyNums(inputObj) {
@@ -143,6 +146,9 @@ function useInput(input) {
 		updateDisplay(currentNumStr);
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
+			if(currentInput.lastInputVal) {
+
+			}
 		// 	if(checkIfReady(currentInput)) {
 		// 		if(recursive) {
 		// 			resultsPos++;
