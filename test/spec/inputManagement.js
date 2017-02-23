@@ -28,7 +28,10 @@
 				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.lastInputVal.c[0]).toEqual(66);
 			});
+			// var inputTwo = inputConstructor();
+			// it('should ')
 		});
+
 
 		describe('"remValFromInput" function', function() {
 			it('should remove items from the input objects "val" property', function() {
@@ -68,7 +71,9 @@
 		});
 
 		it('should add a zero prior to the decimal point when the decimal is the first input', function() {
-			expect(currentNumStringBuilder('.')).toEqual('0.1');
+			var decimal = currentNumStringBuilder('.');
+			expect(decimal).toEqual('0.');
+			expect(currentNumStringBuilder('5', decimal)).toEqual('0.5');
 		});
 	});
 

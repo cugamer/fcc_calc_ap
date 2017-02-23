@@ -63,7 +63,7 @@ function divideNums(inputObj, reverseOrder) {
 
 function binOp(inputObj, cb, reverseOrder) {
 	var result = cb(inputObj, reverseOrder);
-	inputObj.vals[resultsPos] = result;
+	inputObj.vals.push(result);
 	return result;
 }
 
@@ -92,18 +92,19 @@ function callOp(inputObj, reverseOrder) {
 
 // -----------------Capture user input------------------------
 var currentNumStr = "";
-var resultsPos = 1;
 var currentInput = inputConstructor();
 var recursive = false;
 var reverseOrder = false;
 
 function currentNumStringBuilder(nextInput, currentString) {
+	// console.log("in func", currentString)
 	var current = currentString || "";
 	if(nextInput === "." && current.length === 0) {
-		current += "0.1";
+		current = "0.";
 	} else {
 		current += nextInput;
 	}
+	// console.log("in func", current)
 	return current;
 }
 
@@ -144,26 +145,19 @@ function checkIfReady(inputObj) {
 function useInput(input) {
 	if(input.match(/(\d|\.)/)) {
 		currentNumStr = currentNumStringBuilder(input, currentNumStr);
+		console.log(currentNumStr)
 		updateDisplay(currentNumStr);
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
-			if(currentInput.lastInputVal) {
-
+			addValToInput(currentNumStr, currentInput);
+			if(recursive) {
+				callOp(currentInput);
+				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 			}
-		// 	if(checkIfReady(currentInput)) {
-		// 		if(recursive) {
-		// 			resultsPos++;
-		// 			recursive = false;
-		// 		}
-		// 		addValToInput(currentNumStr, currentInput);
-		// 		callOp(currentInput);
-		// 		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-		// 	} else {
-		// 		addValToInput(currentNumStr, currentInput);			
-		// 	}
-			addOpToInput(input, currentInput);
+			recursive = true;
 		}
-	} else if (input.match(/=/) && currentInput.vals.length >= 1) {
+		addOpToInput(input, currentInput);
+	} else if (input.match(/=/)) {
 		// var oppReversers = /(\/|-)/
 		// if(!recursive) {
 		// 	updateInputVals(currentInput);
@@ -175,9 +169,15 @@ function useInput(input) {
 		// }
 		// checkIfReady = false;
 		// callOp(currentInput, reverseOrder);
-		// updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-		// console.log(currentInput)
+		if(currentNumStr.length > 0) {
+			console.log("tripped")
+			addValToInput(currentNumStr, currentInput);
+		}
+		callOp(currentInput);
+		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		currentNumStr = "";
 	}
+		// console.table(currentInput.vals)
 }
 
 function updateDisplay(val) {
