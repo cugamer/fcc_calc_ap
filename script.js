@@ -7,6 +7,11 @@ function inputConstructor(vals, opps, lastInputVal) {
 	return input;
 }
 
+function convertToBignum(inputNum) {
+	var num = inputNum.toString();
+	return num instanceof BigNumber ? num : new BigNumber(num, 10);
+}
+
 function addValToInput(val, input) {
 	var big = new BigNumber(val);
 	if(input.lastInputVal != null) {
@@ -19,10 +24,6 @@ function remValFromInput(pos, input) {
 	return input.vals.splice(pos, 1)[0];
 }
 
-function convertToBignum(inputNum) {
-	var num = inputNum.toString();
-	return num instanceof BigNumber ? num : new BigNumber(num, 10);
-}
 
 function addOpToInput(op, input) {
 	input.opps.push(op);
@@ -47,17 +48,17 @@ function subtractNums(inputObj, reverseOrder) {
 }
 
 function multiplyNums(inputObj) {
+	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
-	var first = inputObj.vals[len - 2];
-	var second = inputObj.vals[len - 1];
-	return first.times(second);
+	var workingVal = inputObj.vals[len - 1];
+	return lastInputVal.times(workingVal);
 }
 
 function divideNums(inputObj, reverseOrder) {
+	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
-	var first = inputObj.vals[len - 2];
-	var second = inputObj.vals[len - 1];
-	return reverseOrder ? second.dividedBy(first) : first.dividedBy(second);
+	var workingVal = inputObj.vals[len - 1];
+	return !reverseOrder ? workingVal.dividedBy(lastInputVal) : lastInputVal.dividedBy(workingVal);
 }
 
 function binOp(inputObj, cb, reverseOrder) {
