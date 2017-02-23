@@ -2,8 +2,7 @@ function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
 		vals:         vals || [],
 		opps:         opps || [],
-		lastInputVal: lastInputVal || null,
-		replacelast:  false
+		lastInputVal: lastInputVal || null
 	}
 	return input;
 }
@@ -64,11 +63,11 @@ function divideNums(inputObj, reverseOrder) {
 
 function binOp(inputObj, cb, reverseOrder) {
 	var result = cb(inputObj, reverseOrder);
-	if(inputObj.replacelast) {
+	// if(inputObj.replacelast) {
 		inputObj.vals[inputObj.vals.length - 1] = result;
-	} else {
-		inputObj.vals.push(result);
-	}
+	// } else {
+		// inputObj.vals.push(result);
+	// }
 	return result;
 }
 
@@ -151,7 +150,6 @@ function useInput(input) {
 		updateDisplay(currentNumStr);
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
-			// currentInput.replacelast = true;
 			if(recursive) {
 				console.log("1")
 				addValToInput(currentNumStr, currentInput, false);
@@ -169,7 +167,6 @@ function useInput(input) {
 			}
 			currentNumStr = "";
 		}
-			console.log("input", input)
 			addOpToInput(input, currentInput);
 	} else if(input.match(/=/)) {
 		if(currentNumStr.length > 0) {
@@ -184,11 +181,8 @@ function useInput(input) {
 				callOp(currentInput);
 				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
 				recursive = true;
-				// recursive = true;
 			} 
-			// addValToInput(currentNumStr, currentInput, true);
-			currentInput.replacelast = true;
-			// recursive = false;
+			// currentInput.replacelast = true;
 			currentNumStr = "";
 		} else {
 			console.log("6")
