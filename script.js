@@ -19,7 +19,6 @@ function addValToInput(val, input, updateVals) {
 		input.vals.push(input.lastInputVal);
 	}
 	input.lastInputVal = big;
-	console.log(input)
 }
 
 function remValFromInput(pos, input) {
@@ -150,18 +149,29 @@ function useInput(input) {
 	if(input.match(/(\d|\.)/)) {
 		currentNumStr = currentNumStringBuilder(input, currentNumStr);
 		updateDisplay(currentNumStr);
-		currentNumStr = "";
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		if(currentNumStr.length > 0) {
-			currentInput.replacelast = true;
-			addValToInput(currentNumStr, currentInput, true);
+			// currentInput.replacelast = true;
 			if(recursive) {
+				console.log("1")
+				addValToInput(currentNumStr, currentInput, false);
 				callOp(currentInput);
 				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+			} else if (currentInput.opps.length > 0) {
+				console.log("2")
+				addValToInput(currentNumStr, currentInput, true);
+				callOp(currentInput);
+				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+				recursive = true;
+			} else {
+				console.log("3")
+				addValToInput(currentNumStr, currentInput, true);				
 			}
-			recursive = true;
+			currentNumStr = "";
+			addOpToInput(input, currentInput);
+		} else {
+			return;
 		}
-		addOpToInput(input, currentInput);
 	} else if(input.match(/=/)) {
 		if(currentNumStr.length > 0) {
 			addValToInput(currentNumStr, currentInput, false);
