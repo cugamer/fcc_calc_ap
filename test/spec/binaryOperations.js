@@ -15,17 +15,17 @@
 			expect(addOutput).toEqual(jasmine.any(BigNumber));
 			expect(addOutput.c[0]).toEqual(110);
 			expect(addOutput.toString()).toEqual("110");
-			expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
-			expect(inputOne.vals[0].c[0]).toEqual(110);
-			expect(inputOne.vals[0].toString()).toEqual("110");
-			expect(inputOne.vals.length).toEqual(1);
+			expect(inputOne.vals[1]).toEqual(jasmine.any(BigNumber));
+			expect(inputOne.vals[1].c[0]).toEqual(110);
+			expect(inputOne.vals[1].toString()).toEqual("110");
+			expect(inputOne.vals.length).toEqual(2);
 		});
 	});
 
-	describe('"selectOperation" function', function() {
+	describe('"selectOpFunction" function', function() {
 		it('should return the function for the most recently added opperation' , function() {
 			var inputTwo = inputConstructor([bigNumTwo, bigNumTwo], ["/"]);
-			var divOpFunc = selectOperation(inputTwo);
+			var divOpFunc = selectOpFunction(inputTwo);
 			expect(divOpFunc).toEqual(jasmine.any(Function));
 			expect(divOpFunc).toEqual(divideNums);
 		});

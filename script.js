@@ -98,22 +98,17 @@ function captureDirectInput() {
 // -----------------Operations management------------------------
 function useInput(input) {
 	if(input.match(/(\d|\.)/)) {
-		currentNumStr = currentNumStringBuilder(input, currentNumStr);
-		updateDisplay(currentNumStr);
+		handleDigitInput(input);
 	} else if(input.match(/(X|\/|-|\+)/)) {
 		handleBinaryOperation(input);
 	} else if(input.match(/=/)) {
-		if(currentNumStr.length > 0) {
-			if(recursive) {
-				addValToInput(currentNumStr, currentInput, false);
-			} else if(currentInput.opps.length > 0) {
-				addValToInput(currentNumStr, currentInput, true);
-				recursive = true;
-			} 
-			currentNumStr = "";
-		}
-		updateDisplay(callBinaryOp(currentInput).toString());
+		handleEqualsOperation();
 	}
+}
+
+function handleDigitInput(input) {
+	currentNumStr = currentNumStringBuilder(input, currentNumStr);
+	updateDisplay(currentNumStr);
 }
 
 function handleBinaryOperation(input) {
@@ -130,30 +125,46 @@ function handleBinaryOperation(input) {
 		}
 		currentNumStr = "";
 	}
-	addOpToInput(input, currentInput);
+	if(currentInput.vals.length > 0 || currentInput.lastInputVal) {
+		addOpToInput(input, currentInput);
+	}
 }
 
 function callBinaryOp(inputObj, reverseOrder) {
-	var oppFunc = selectOperation(inputObj);
+	var oppFunc = selectOpFunction(inputObj);
 	var result = binOp(inputObj, oppFunc, reverseOrder);
 	return result;
 }
 
 function binOp(inputObj, cb, reverseOrder) {
 	var result = cb(inputObj, reverseOrder);
-	inputObj.vals[inputObj.vals.length - 1] = result;
+	// Keep an eye on this, used to be length minus one
+	inputObj.vals[inputObj.vals.length] = result;
 	return result;
 }
 
-function selectOperation(inputObj) {
+function selectOpFunction(inputObj) {
 	var mostRecent = inputObj.opps[inputObj.opps.length - 1]
 	switch(mostRecent) {
 		case '+': return addNums;
 		case '-': return subtractNums;
 		case 'X': return multiplyNums;
 		case '/': return divideNums;
-		default: return "Opperator value not found";
+		default: return "Operator value not found";
 	}
+}
+
+function handleEqualsOperation(input) {
+	if(currentNumStr.length > 0) {
+		if(recursive) {
+			addValToInput(currentNumStr, currentInput, false);
+		} else if(currentInput.opps.length > 0) {
+			addValToInput(currentNumStr, currentInput, true);
+			recursive = true;
+		} 
+		currentNumStr = "";
+	}
+	updateDisplay(callBinaryOp(currentInput).toString());
 }
 
 // -----------------Output display------------------------
