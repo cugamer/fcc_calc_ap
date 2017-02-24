@@ -14,6 +14,10 @@
 		it('objects should have a "recursive" property set to false at creation', function() {
 			expect(inputConstructor().recursive).toEqual(false);
 		});
+
+		it('objects should have a "reverseOrder" property set to false at creation', function() {
+			expect(inputConstructor().reverseOrder).toEqual(false);
+		});
 	});
 
 	describe('When updating an input objects values', function() {

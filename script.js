@@ -3,7 +3,8 @@ function inputConstructor(vals, opps, lastInputVal) {
 		vals:         vals         || [],
 		opps:         opps         || [],
 		lastInputVal: lastInputVal || null,
-		recursive:    false
+		recursive:    false,
+		reverseOrder: false
 	}
 	return input;
 }
@@ -42,11 +43,11 @@ function addNums(inputObj) {
 	return lastInputVal.plus(workingVal);
 }
 
-function subtractNums(inputObj, reverseOrder) {
+function subtractNums(inputObj) {
 	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
 	var workingVal = inputObj.vals[len - 1];
-	return !reverseOrder ? workingVal.minus(lastInputVal) : lastInputVal.minus(workingVal);
+	return !inputObj.reverseOrder ? workingVal.minus(lastInputVal) : lastInputVal.minus(workingVal);
 }
 
 function multiplyNums(inputObj) {
@@ -56,11 +57,11 @@ function multiplyNums(inputObj) {
 	return lastInputVal.times(workingVal);
 }
 
-function divideNums(inputObj, reverseOrder) {
+function divideNums(inputObj) {
 	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
 	var workingVal = inputObj.vals[len - 1];
-	return !reverseOrder ? workingVal.dividedBy(lastInputVal) : lastInputVal.dividedBy(workingVal);
+	return !inputObj.reverseOrder ? workingVal.dividedBy(lastInputVal) : lastInputVal.dividedBy(workingVal);
 }
 
 // -----------------User input------------------------
@@ -131,14 +132,14 @@ function handleBinaryOperation(input) {
 	}
 }
 
-function callBinaryOp(inputObj, reverseOrder) {
+function callBinaryOp(inputObj) {
 	var oppFunc = selectOpFunction(inputObj);
-	var result = binOp(inputObj, oppFunc, reverseOrder);
+	var result = binOp(inputObj, oppFunc, inputObj.reverseOrder);
 	return result;
 }
 
-function binOp(inputObj, cb, reverseOrder) {
-	var result = cb(inputObj, reverseOrder);
+function binOp(inputObj, cb) {
+	var result = cb(inputObj, inputObj.reverseOrder);
 	// Keep an eye on this, used to be length minus one
 	inputObj.vals[inputObj.vals.length] = result;
 	return result;
@@ -181,7 +182,6 @@ function currentNumStringBuilder(nextInput, currentString) {
 // -----------------Global variables------------------------
 var currentInput = inputConstructor();
 var currentNumStr = "";
-var reverseOrder = false;
 var displayFocused = false;
 var buttons = document.querySelectorAll(".calc-btn");
 var disp = document.querySelector('.display');

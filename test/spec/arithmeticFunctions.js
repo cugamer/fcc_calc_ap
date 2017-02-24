@@ -55,11 +55,13 @@
 
     it('when reverse is true should return a BigNumber object with the correct value with order reversed', function() {
       expect(subtractNums({vals: [bigNumTwo], 
-        opps:[null],
-        lastInputVal: bigNumOne}, true).c[0]).toEqual(123444444);
+        opps:         [null],
+        lastInputVal: bigNumOne,
+        reverseOrder: true}, true).c[0]).toEqual(123444444);
       expect(subtractNums({vals: [bigNumTwo], 
-        opps:[null],
-        lastInputVal: bigNumOne}, true).toString()).toEqual("123444444");
+        opps:         [null],
+        lastInputVal: bigNumOne,
+        reverseOrder: true}, true).toString()).toEqual("123444444");
     })
   });
 
@@ -100,12 +102,24 @@
   	});
 
     it('when reverse is true should return a BigNumber object with the correct value with order reversed', function() {
-      expect(divideNums({vals: [bigNumTwo], lastInputVal: bigNumTwo}, true).c[0]).toEqual(1);
-      expect(divideNums({vals: [bigNumTwo], lastInputVal: bigNumTwo}, true).toString()).toEqual("1");
-      expect(divideNums({vals: [bigNumSix], lastInputVal: bigNumFive}, true).c.length).toEqual(2);
-      expect(divideNums({vals: [bigNumSix], lastInputVal: bigNumFive}, true).c[0]).toEqual(2222);
-      expect(divideNums({vals: [bigNumSix], lastInputVal: bigNumFive}, true).c[1]).toEqual(22222222222222);
-      expect(divideNums({vals: [bigNumSix], lastInputVal: bigNumFive}, true).toString()).toEqual("222222222222222222");
+      expect(divideNums({vals: [bigNumTwo], 
+        lastInputVal: bigNumTwo,
+        reverseOrder: true}, true).c[0]).toEqual(1);
+      expect(divideNums({vals: [bigNumTwo], 
+        lastInputVal: bigNumTwo,
+        reverseOrder: true}, true).toString()).toEqual("1");
+      expect(divideNums({vals: [bigNumSix], 
+        lastInputVal: bigNumFive,
+        reverseOrder: true}, true).c.length).toEqual(2);
+      expect(divideNums({vals: [bigNumSix], 
+        lastInputVal: bigNumFive,
+        reverseOrder: true}, true).c[0]).toEqual(2222);
+      expect(divideNums({vals: [bigNumSix], 
+        lastInputVal: bigNumFive,
+        reverseOrder: true}, true).c[1]).toEqual(22222222222222);
+      expect(divideNums({vals: [bigNumSix], 
+        lastInputVal: bigNumFive,
+        reverseOrder: true}, true).toString()).toEqual("222222222222222222");
     });
   });
 })();
