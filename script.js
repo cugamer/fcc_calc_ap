@@ -79,8 +79,10 @@ function useKeyInput(e) {
 		var key = e.key;
 		if(key === "Enter") {
 			key = "="; 
-		} else if (key === "*") {
+		} else if(key === "*") {
 			key = "X";
+		} else if(key === "Escape") {
+			key = ("ac");
 		}
 		useInput(key);
 	}
@@ -195,7 +197,8 @@ function allClear() {
 }
 
 function archiveInputArr(inputArr, history) {
-	return history.push(inputArr);
+	history.push(inputArr);
+	return history;
 }
 
 function refreshCurrentInput() {

@@ -125,8 +125,8 @@
 			var inputHistory = [];
 			expect(inputHistory.length).toEqual(0);
 			var updatedHistory = archiveInputArr(inputThree, inputHistory);
-			expect(inputHistory.length).toEqual(1);
-			expect(inputHistory[0]).toEqual(jasmine.any(Object));
+			expect(updatedHistory.length).toEqual(1);
+			expect(updatedHistory[0]).toEqual(jasmine.any(Object));
 		});
 	});
 
