@@ -31,12 +31,19 @@
 		});
 	});
 
-	describe('"callOp" function', function() {
+	describe('"callBinaryOp" function', function() {
 		var inputThree = inputConstructor([bigNumTwo], ["X"], bigNumTwo);
-		var processed = callOp(inputThree);
+		var processed = callBinaryOp(inputThree);
 		it('should return the correct result for a recent operation', function() {
 			expect(processed).toEqual(jasmine.any(BigNumber));
 			expect(processed.c[0]).toEqual(3025);
 		});
 	});
+
+	// describe('"useInput" function', function() {
+	// 	var currentInput = inputConstructor();
+	// 	it('should properly process a series of inputs of binary operations', function() {
+	// 		currentInput.
+	// 	});
+	// })
 })();

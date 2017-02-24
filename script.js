@@ -1,12 +1,13 @@
 function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
-		vals:         vals || [],
-		opps:         opps || [],
+		vals:         vals         || [],
+		opps:         opps         || [],
 		lastInputVal: lastInputVal || null
 	}
 	return input;
 }
 
+// -----------------Input object management------------------------
 function convertToBignum(inputNum) {
 	var num = inputNum.toString();
 	return num instanceof BigNumber ? num : new BigNumber(num, 10);
@@ -24,7 +25,6 @@ function remValFromInput(pos, input) {
 	return input.vals.splice(pos, 1)[0];
 }
 
-
 function addOpToInput(op, input) {
 	input.opps.push(op);
 }
@@ -33,6 +33,7 @@ function removeOpFromInput(pos, input) {
 	return input.opps.splice(pos, 1)[0];
 }
 
+// -----------------Arithmetic functions------------------------
 function addNums(inputObj) {
 	var lastInputVal = inputObj.lastInputVal;
 	var len = inputObj.vals.length
@@ -61,56 +62,13 @@ function divideNums(inputObj, reverseOrder) {
 	return !reverseOrder ? workingVal.dividedBy(lastInputVal) : lastInputVal.dividedBy(workingVal);
 }
 
-function binOp(inputObj, cb, reverseOrder) {
-	var result = cb(inputObj, reverseOrder);
-		inputObj.vals[inputObj.vals.length - 1] = result;
-	return result;
-}
-
-function selectOperation(inputObj) {
-	var mostRecent = inputObj.opps[inputObj.opps.length - 1]
-	switch(mostRecent) {
-		case '+':
-			return addNums;
-		case '-':
-			return subtractNums;
-		case 'X':
-			return multiplyNums;
-		case '/':
-			return divideNums;
-		default:
-			return "Opperator value not found";
-	}
-}
-
-function callOp(inputObj, reverseOrder) {
-	var opp = inputObj;
-	var oppFunc = selectOperation(opp);
-	var result = binOp(inputObj, oppFunc, reverseOrder);
-	return result;
-}
-
-// -----------------Capture user input------------------------
+// -----------------Global variables------------------------
 var currentNumStr = "";
 var currentInput = inputConstructor();
 var recursive = false;
 var reverseOrder = false;
 
-function currentNumStringBuilder(nextInput, currentString) {
-	var current = currentString || "";
-	if(nextInput === "." && current.length === 0) {
-		current = "0.";
-	} else {
-		current += nextInput;
-	}
-	return current;
-}
-
-function updateInputVals(inputObj) {
-	inputObj.vals.push(convertToBignum(currentNumStr));
-	currentNumStr = "";
-}
-
+// -----------------User input------------------------
 function useButtonInput() {
 	if(!dispFocus) {
 		val = getButtonVal(this);
@@ -130,56 +88,78 @@ function useKeyInput(e) {
 	}
 }
 
-function checkIfReady(inputObj) {
-	var binOpps = /(X|\/|-|\+)/;
-	if(inputObj.vals.length >= 1 && 
-		inputObj.opps.length >= 1 &&
-		inputObj.opps[inputObj.opps.length - 1].match(/(X|\/|-|\+)/)) {
-		return true;
-	}
-	return false;
-}
-
+// -----------------Operations management------------------------
 function useInput(input) {
 	if(input.match(/(\d|\.)/)) {
 		currentNumStr = currentNumStringBuilder(input, currentNumStr);
 		updateDisplay(currentNumStr);
 	} else if(input.match(/(X|\/|-|\+)/)) {
-		if(currentNumStr.length > 0) {
-			if(recursive) {
-				addValToInput(currentNumStr, currentInput, false);
-				callOp(currentInput);
-				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-			} else if (currentInput.opps.length > 0) {
-				addValToInput(currentNumStr, currentInput, true);
-				callOp(currentInput);
-				updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
-				recursive = true;
-			} else {
-				addValToInput(currentNumStr, currentInput, true);				
-			}
-			currentNumStr = "";
-		}
-		addOpToInput(input, currentInput);
+		handleBinaryOperation(input);
 	} else if(input.match(/=/)) {
 		if(currentNumStr.length > 0) {
 			if(recursive) {
 				addValToInput(currentNumStr, currentInput, false);
-			} else if (currentInput.opps.length > 0) {
+			} else if(currentInput.opps.length > 0) {
 				addValToInput(currentNumStr, currentInput, true);
 				recursive = true;
 			} 
 			currentNumStr = "";
 		}
-		callOp(currentInput);
-		updateDisplay(currentInput.vals[currentInput.vals.length - 1].toString());
+		updateDisplay(callBinaryOp(currentInput).toString());
 	}
 }
 
+function handleBinaryOperation(input) {
+	if(currentNumStr.length > 0) {
+		if(recursive) {
+			addValToInput(currentNumStr, currentInput, false);
+			updateDisplay(callBinaryOp(currentInput).toString());
+		} else if (currentInput.opps.length > 0) {
+			addValToInput(currentNumStr, currentInput, true);
+			updateDisplay(callBinaryOp(currentInput).toString());
+			recursive = true;
+		} else {
+			addValToInput(currentNumStr, currentInput, true);				
+		}
+		currentNumStr = "";
+	}
+	addOpToInput(input, currentInput);
+}
+
+function callBinaryOp(inputObj, reverseOrder) {
+	var oppFunc = selectOperation(inputObj);
+	var result = binOp(inputObj, oppFunc, reverseOrder);
+	return result;
+}
+
+function binOp(inputObj, cb, reverseOrder) {
+	var result = cb(inputObj, reverseOrder);
+	inputObj.vals[inputObj.vals.length - 1] = result;
+	return result;
+}
+
+function selectOperation(inputObj) {
+	var mostRecent = inputObj.opps[inputObj.opps.length - 1]
+	switch(mostRecent) {
+		case '+': return addNums;
+		case '-': return subtractNums;
+		case 'X': return multiplyNums;
+		case '/': return divideNums;
+		default: return "Opperator value not found";
+	}
+}
+
+// -----------------Output display------------------------
 function updateDisplay(val) {
 	disp.value = val;
 }
 
+function currentNumStringBuilder(nextInput, currentString) {
+	var current = currentString || "";
+	return nextInput === "." && current.length === 0 ? "0." : current += nextInput;
+}
+
+// -----------------Event listeners------------------------
 var buttons = document.querySelectorAll(".calc-btn");
 function getButtonVal(btn) {
 	return btn.dataset.button;
@@ -205,3 +185,30 @@ buttons.forEach(function(btn){
 	btn.addEventListener('click', useButtonInput)
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------Unused functions------------------------
+function updateInputVals(inputObj) {
+	inputObj.vals.push(convertToBignum(currentNumStr));
+	currentNumStr = "";
+}
+
+function checkIfReady(inputObj) {
+	var binOpps = /(X|\/|-|\+)/;
+	if(inputObj.vals.length >= 1 && 
+		inputObj.opps.length >= 1 &&
+		inputObj.opps[inputObj.opps.length - 1].match(/(X|\/|-|\+)/)) {
+		return true;
+	}
+	return false;
+}
