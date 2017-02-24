@@ -185,6 +185,7 @@ var currentNumStr = "";
 var displayFocused = false;
 var buttons = document.querySelectorAll(".calc-btn");
 var disp = document.querySelector('.display');
+var inputHistory = [];
 
 // -----------------Event listeners------------------------
 disp.addEventListener("focus", function() { displayFocused = true; });
