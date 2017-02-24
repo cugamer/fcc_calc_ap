@@ -62,22 +62,18 @@ function divideNums(inputObj, reverseOrder) {
 	return !reverseOrder ? workingVal.dividedBy(lastInputVal) : lastInputVal.dividedBy(workingVal);
 }
 
-// -----------------Global variables------------------------
-var currentNumStr = "";
-var currentInput = inputConstructor();
-var recursive = false;
-var reverseOrder = false;
-
 // -----------------User input------------------------
 function useButtonInput() {
-	if(!dispFocus) {
+	if(!displayFocused) {
 		val = getButtonVal(this);
 		useInput(val);
 	}
 }
 
+function getButtonVal(btn) { return btn.dataset.button; }
+
 function useKeyInput(e) {
-	if(!dispFocus) {
+	if(!displayFocused) {
 		var key = e.key;
 		if(key === "Enter") {
 			key = "="; 
@@ -86,6 +82,17 @@ function useKeyInput(e) {
 		}
 		useInput(key);
 	}
+}
+
+function captureDirectInput() {
+	var input = this.value;
+	if(input.match(/^\d*\.*\d*$/)) {
+		if(input[0] === ".") {
+			input = "0" + input;
+		}
+		currentNumStr = input;
+	}
+	updateDisplay(currentNumStr);
 }
 
 // -----------------Operations management------------------------
@@ -159,31 +166,22 @@ function currentNumStringBuilder(nextInput, currentString) {
 	return nextInput === "." && current.length === 0 ? "0." : current += nextInput;
 }
 
-// -----------------Event listeners------------------------
+// -----------------Global variables------------------------
+var currentNumStr = "";
+var currentInput = inputConstructor();
+var recursive = false;
+var reverseOrder = false;
+var displayFocused = false;
 var buttons = document.querySelectorAll(".calc-btn");
-function getButtonVal(btn) {
-	return btn.dataset.button;
-}
-
 var disp = document.querySelector('.display');
-var dispFocus = false;
-disp.addEventListener("focus", function() { dispFocus = true; });
-disp.addEventListener("blur", function() { dispFocus = false; });
-disp.addEventListener('input', function(e) {
-	var input = this.value;
-	if(input.match(/^\d*\.*\d*$/)) {
-		if(input[0] === ".") {
-			input = "0" + input;
-		}
-		currentNumStr = input;
-	}
-	updateDisplay(currentNumStr);
-});
+
+// -----------------Event listeners------------------------
+disp.addEventListener("focus", function() { displayFocused = true; });
+disp.addEventListener("blur", function() { displayFocused = false; });
+disp.addEventListener('input', captureDirectInput);
 
 document.addEventListener('keyup', useKeyInput);
-buttons.forEach(function(btn){
-	btn.addEventListener('click', useButtonInput)
-});
+buttons.forEach(function(btn){ btn.addEventListener('click', useButtonInput) });
 
 
 
