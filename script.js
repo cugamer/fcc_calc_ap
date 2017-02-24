@@ -190,6 +190,10 @@ function clearCurrentNumStr() {
 	updateDisplay("0");
 }
 
+function archiveInputObj(inputObj, history) {
+	return history.push(inputObj);
+}
+
 // -----------------Global variables------------------------
 var currentInput = inputConstructor();
 var currentNumStr = "";

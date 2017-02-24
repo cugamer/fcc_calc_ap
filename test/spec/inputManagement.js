@@ -25,14 +25,14 @@
 		describe('"addValToInput function', function() {
 			it('should add a BigNumber object to an input objects "lastInputVal" property and update the "vals" property when updateVals is true', function() {
 				addValToInput(55, inputOne, true);
-				expect(inputOne.vals.length).toEqual(0);
+				expect(inputOne.vals.length).toEqual(1);
 				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.lastInputVal.c[0]).toEqual(55);
 
 				addValToInput(66, inputOne, true);
-				expect(inputOne.vals.length).toEqual(1);
+				expect(inputOne.vals.length).toEqual(2);
 				expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
-				expect(inputOne.vals[0].c[0]).toEqual(55);
+				expect(inputOne.vals[0].c[0]).toEqual(0);
 				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.lastInputVal.c[0]).toEqual(66);
 			});
@@ -41,15 +41,15 @@
 			it('should add a BigNumber object to an input objects "lastInputVal" property but not  update the "vals" property when updateVals is false', function() {
 				addValToInput(55, inputTwo, true);
 				addValToInput(66, inputTwo, true);
-				expect(inputTwo.vals.length).toEqual(1);
-				expect(inputTwo.vals[0].c[0]).toEqual(55);
+				expect(inputTwo.vals.length).toEqual(2);
+				expect(inputTwo.vals[1].c[0]).toEqual(55);
 				expect(inputTwo.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputTwo.lastInputVal.c[0]).toEqual(66);
 
 				addValToInput(77, inputOne, false);
-				expect(inputOne.vals.length).toEqual(1);
+				expect(inputOne.vals.length).toEqual(2);
 				expect(inputOne.vals[0]).toEqual(jasmine.any(BigNumber));
-				expect(inputOne.vals[0].c[0]).toEqual(55);
+				expect(inputOne.vals[1].c[0]).toEqual(55);
 				expect(inputOne.lastInputVal).toEqual(jasmine.any(BigNumber));
 				expect(inputOne.lastInputVal.c[0]).toEqual(77);
 			});
@@ -58,10 +58,10 @@
 
 		describe('"remValFromInput" function', function() {
 			it('should remove items from the input objects "val" property', function() {
-				var removedOne = remValFromInput(0, inputOne);
+				var removedOne = remValFromInput(1, inputOne);
 				expect(removedOne).toEqual(jasmine.any(BigNumber));
 				expect(removedOne.c[0]).toEqual(55);
-				expect(inputOne.vals.length).toEqual(0);
+				expect(inputOne.vals.length).toEqual(1);
 			});
 		});
 
@@ -116,6 +116,17 @@
 		var inputFive = inputConstructor([111, 222], ["X"]);
 		it('should return true for binary when input object has values and opperations', function() {
 			expect(checkIfReady(inputFive)).toEqual(true);
+		});
+	});
+
+	describe('"archiveInputObj" function', function() {
+		it('should take an existing input object and add it to an archive array', function() {
+			var inputThree = inputConstructor();
+			var inputHistory = [];
+			expect(inputHistory.length).toEqual(0);
+			var updatedHistory = archiveInputObj(inputThree, inputHistory);
+			expect(inputHistory.length).toEqual(1);
+			expect(inputHistory[0]).toEqual(jasmine.any(Object));
 		});
 	});
 })();
