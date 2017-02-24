@@ -28,8 +28,6 @@ body {
 	margin-right: auto;
 }
 
-
-
 .calc-btn {
 	-moz-box-shadow: inset 0px 1px 3px 0px #91b8b3;
 	-webkit-box-shadow: inset 0px 1px 3px 0px #91b8b3;
@@ -58,6 +56,7 @@ body {
 	width: 35px;
 	text-decoration: none;
 	text-shadow: 0px -1px 0px #2b665e;
+	cursor: default;
 }
 .calc-btn:hover {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #333333), color-stop(1, #666666));
@@ -74,18 +73,25 @@ body {
 	top: 1px;
 }
 
-.equals-btn {
-	padding: 24px 0px 23px 0px;
-	position: relative;
-	top: -17px;
-}
 .equals-btn:active {
 	top: -16px;
 }
 
 .button-area .btn-row:last-child {
 	position: relative;
+	top: 0;
+	height: 35px;
+}
+
+.button-area .btn-row:last-child .calc-btn {
+	position: relative;
 	top: -18px;
+}
+
+.button-area .btn-row:last-child .equals-btn {
+	padding: 24px 0px 23px 0px;
+	position: relative;
+	top: -35px;
 }
 
 .op-btn {
