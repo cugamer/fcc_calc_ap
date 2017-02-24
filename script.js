@@ -75,14 +75,16 @@ function useButtonInput() {
 function getButtonVal(btn) { return btn.dataset.button; }
 
 function useKeyInput(e) {
+	var key = e.key;
 	if(!displayFocused) {
-		var key = e.key;
 		if(key === "Enter") {
 			key = "="; 
 		} else if(key === "*") {
 			key = "X";
 		} else if(key === "Escape") {
-			key = ("ac");
+			key = "ac";
+		} else if(key === "Backspace") {
+			key = "shorten";
 		}
 		useInput(key);
 	}
@@ -111,6 +113,8 @@ function useInput(input) {
 		clearCurrentNumStr();
 	} else if(input.match(/^ac$/)) {
 		allClear();
+	} else if(input.match(/^shorten$/)) {
+		shortenCurrentNumStr();	
 	}
 }
 
@@ -188,6 +192,14 @@ function currentNumStringBuilder(nextInput, currentString) {
 function clearCurrentNumStr() {
 	currentNumStr = "";
 	updateDisplay("0");
+}
+
+function shortenCurrentNumStr() {
+	var len = currentNumStr.length;
+	if(len > 0) {
+		currentNumStr = currentNumStr.slice(0, len - 1);
+		updateDisplay(currentNumStr);
+	}
 }
 
 function allClear() {
