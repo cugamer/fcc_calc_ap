@@ -2,7 +2,7 @@ function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
 		vals:         vals         || [],
 		opps:         opps         || [],
-		lastInputVal: lastInputVal || null,
+		lastInputVal: lastInputVal || convertToBignum("0"),
 		recursive:    false,
 		reverseOrder: false
 	}
