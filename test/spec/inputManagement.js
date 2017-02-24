@@ -124,9 +124,22 @@
 			var inputThree = inputConstructor();
 			var inputHistory = [];
 			expect(inputHistory.length).toEqual(0);
-			var updatedHistory = archiveInputObj(inputThree, inputHistory);
+			var updatedHistory = archiveInputArr(inputThree, inputHistory);
 			expect(inputHistory.length).toEqual(1);
 			expect(inputHistory[0]).toEqual(jasmine.any(Object));
+		});
+	});
+
+	describe('"refreshCurrentInput" function', function() {
+		it('should take an existing input object and add it to an archive array', function() {
+			var currentInput = inputConstructor();
+			addValToInput('15', currentInput, true);
+			addOpToInput('+', currentInput);
+			expect(currentInput.vals.length).toEqual(1);
+			expect(currentInput.opps.length).toEqual(1);
+			currentInput = refreshCurrentInput();
+			expect(currentInput.vals.length).toEqual(0);
+			expect(currentInput.opps.length).toEqual(0);
 		});
 	});
 })();

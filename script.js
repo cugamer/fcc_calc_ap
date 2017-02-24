@@ -106,11 +106,9 @@ function useInput(input) {
 	} else if(input.match(/=/)) {
 		handleEqualsOperation();
 	} else if(input.match(/^c$/)) {
-		console.log("asdf");
 		clearCurrentNumStr();
 	} else if(input.match(/^ac$/)) {
-		console.log("qwerqwer");
-
+		allClear();
 	}
 }
 
@@ -190,8 +188,18 @@ function clearCurrentNumStr() {
 	updateDisplay("0");
 }
 
-function archiveInputObj(inputObj, history) {
-	return history.push(inputObj);
+function allClear() {
+	inputHistory = archiveInputArr(currentInput, inputHistory);
+	currentInput = refreshCurrentInput();
+	clearCurrentNumStr();
+}
+
+function archiveInputArr(inputArr, history) {
+	return history.push(inputArr);
+}
+
+function refreshCurrentInput() {
+	return inputConstructor();
 }
 
 // -----------------Global variables------------------------
