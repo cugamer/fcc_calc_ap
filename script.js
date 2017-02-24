@@ -105,6 +105,12 @@ function useInput(input) {
 		handleBinaryOperation(input);
 	} else if(input.match(/=/)) {
 		handleEqualsOperation();
+	} else if(input.match(/^c$/)) {
+		console.log("asdf");
+		clearCurrentNumStr();
+	} else if(input.match(/^ac$/)) {
+		console.log("qwerqwer");
+
 	}
 }
 
@@ -177,6 +183,11 @@ function updateDisplay(val) {
 function currentNumStringBuilder(nextInput, currentString) {
 	var current = currentString || "";
 	return nextInput === "." && current.length === 0 ? "0." : current += nextInput;
+}
+
+function clearCurrentNumStr() {
+	currentNumStr = "";
+	updateDisplay("0");
 }
 
 // -----------------Global variables------------------------
