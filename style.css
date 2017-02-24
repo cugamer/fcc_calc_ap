@@ -57,6 +57,7 @@ body {
 	text-decoration: none;
 	text-shadow: 0px -1px 0px #2b665e;
 	cursor: default;
+	outline: none;
 }
 .calc-btn:hover {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #333333), color-stop(1, #666666));
@@ -106,6 +107,8 @@ body {
 	border: 1px solid #FF9900;
 	color: #FFFFFF;
 	text-shadow: none;
+	font-size: 19px;
+	padding: 3px 0 5px 0;
 }
 
 .op-btn:hover {
