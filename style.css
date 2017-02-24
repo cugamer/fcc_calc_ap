@@ -1,0 +1,94 @@
+/* Color scheme is combo 932 found here: http://www.colorcombos.com/color-schemes/932/ColorCombo932.html */
+
+body {
+	background-color: #666666;
+}
+.calc-body {
+	background-color: #BBBBBB;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 6px;
+}
+
+.display {
+	margin: 9px;
+	padding-right: 4px;
+	height: 25px;
+	font-size: 21px;
+	width: 176px;
+	text-align: right;
+	border-radius: 3px;
+}
+
+.button-area {
+	padding: 12px;
+	width: 152px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
+.calc-btn {
+	-moz-box-shadow: inset 0px 1px 3px 0px #91b8b3;
+	-webkit-box-shadow: inset 0px 1px 3px 0px #91b8b3;
+	box-shadow: inset 0px 1px 3px 0px #91b8b3;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #666666), color-stop(1, #333333));
+	background: -moz-linear-gradient(top, #666666 5%, #333333 100%);
+	background: -webkit-linear-gradient(top, #666666 5%, #333333 100%);
+	background: -o-linear-gradient(top, #666666 5%, #333333 100%);
+	background: -ms-linear-gradient(top, #666666 5%, #333333 100%);
+	background: linear-gradient(to bottom, #666666 5%, #333333 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#333333',GradientType=0);
+	background-color: #666666;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #566963;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: 500;
+	padding: 6px 0px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	width: 35px;
+	text-decoration: none;
+	text-shadow: 0px -1px 0px #2b665e;
+}
+.calc-btn:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #333333), color-stop(1, #666666));
+	background: -moz-linear-gradient(top, #333333 5%, #666666 100%);
+	background: -webkit-linear-gradient(top, #333333 5%, #666666 100%);
+	background: -o-linear-gradient(top, #333333 5%, #666666 100%);
+	background: -ms-linear-gradient(top, #333333 5%, #666666 100%);
+	background: linear-gradient(to bottom, #333333 5%, #666666 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#666666',GradientType=0);
+	background-color: #333333;
+}
+.calc-btn:active {
+	position: relative;
+	top: 1px;
+}
+
+/*.btn-row .calc-btn:last-child {
+	background-color: green;
+/*}*/
+
+/*.btn-row .plus-btn:last-child {
+	top: 0px;
+}
+*/
+.equals-btn {
+	padding: 24px 0px 23px 0px;
+	position: relative;
+	top: -17px;
+}
+
+.button-area .btn-row:last-child {
+	position: relative;
+	top: -18px;
+}
