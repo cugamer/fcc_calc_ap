@@ -10,6 +10,10 @@
 			expect(inputConstructor().vals).toEqual(jasmine.any(Array));
 			expect(inputConstructor().opps).toEqual(jasmine.any(Array));
 		});
+
+		it('objects should have a "recursive" property set to false at creation', function() {
+			expect(inputConstructor().recursive).toEqual(false);
+		});
 	});
 
 	describe('When updating an input objects values', function() {

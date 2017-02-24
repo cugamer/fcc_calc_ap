@@ -2,7 +2,8 @@ function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
 		vals:         vals         || [],
 		opps:         opps         || [],
-		lastInputVal: lastInputVal || null
+		lastInputVal: lastInputVal || null,
+		recursive:    false
 	}
 	return input;
 }
@@ -113,13 +114,13 @@ function handleDigitInput(input) {
 
 function handleBinaryOperation(input) {
 	if(currentNumStr.length > 0) {
-		if(recursive) {
+		if(currentInput.recursive) {
 			addValToInput(currentNumStr, currentInput, false);
 			updateDisplay(callBinaryOp(currentInput).toString());
 		} else if (currentInput.opps.length > 0) {
 			addValToInput(currentNumStr, currentInput, true);
 			updateDisplay(callBinaryOp(currentInput).toString());
-			recursive = true;
+			currentInput.recursive = true;
 		} else {
 			addValToInput(currentNumStr, currentInput, true);				
 		}
@@ -156,11 +157,11 @@ function selectOpFunction(inputObj) {
 
 function handleEqualsOperation(input) {
 	if(currentNumStr.length > 0) {
-		if(recursive) {
+		if(currentInput.recursive) {
 			addValToInput(currentNumStr, currentInput, false);
 		} else if(currentInput.opps.length > 0) {
 			addValToInput(currentNumStr, currentInput, true);
-			recursive = true;
+			currentInput.recursive = true;
 		} 
 		currentNumStr = "";
 	}
@@ -178,9 +179,8 @@ function currentNumStringBuilder(nextInput, currentString) {
 }
 
 // -----------------Global variables------------------------
-var currentNumStr = "";
 var currentInput = inputConstructor();
-var recursive = false;
+var currentNumStr = "";
 var reverseOrder = false;
 var displayFocused = false;
 var buttons = document.querySelectorAll(".calc-btn");
