@@ -1,3 +1,4 @@
+// (function() {
 function inputConstructor(vals, opps, lastInputVal) {
 	var input = {
 		vals:         vals         || [],
@@ -65,9 +66,9 @@ function divideNums(inputObj) {
 }
 
 // -----------------User input------------------------
-function useButtonInput() {
+function useButtonInput(e) {
 	if(!displayFocused) {
-		val = getButtonVal(this);
+		val = this.dataset.button;
 		useInput(val);
 	}
 }
@@ -115,6 +116,8 @@ function useInput(input) {
 		allClear();
 	} else if(input.match(/^shorten$/)) {
 		shortenCurrentNumStr();	
+	} else if(input.match(/^plusmin$/)) {
+		toggleSign();
 	}
 }
 
@@ -173,7 +176,7 @@ function handleEqualsOperation(input) {
 		} else if(currentInput.opps.length > 0) {
 			addValToInput(currentNumStr, currentInput, true);
 			currentInput.recursive = true;
-		} 
+		}
 		currentNumStr = "";
 	}
 	updateDisplay(callBinaryOp(currentInput).toString());
@@ -217,6 +220,19 @@ function refreshCurrentInput() {
 	return inputConstructor();
 }
 
+function toggleSign() {
+	if(getCurrentDispVal()[0] === "-") {
+		currentNumStr = currentNumStr.slice(1, currentNumStr.length);
+	} else {
+		currentNumStr = "-" + currentNumStr;
+	}
+	updateDisplay(currentNumStr);
+}
+
+function getCurrentDispVal() {
+	return disp.value;
+}
+
 // -----------------Global variables------------------------
 var currentInput = inputConstructor();
 var currentNumStr = "";
@@ -231,7 +247,7 @@ disp.addEventListener("blur", function() { displayFocused = false; });
 disp.addEventListener('input', captureDirectInput);
 
 document.addEventListener('keyup', useKeyInput);
-buttons.forEach(function(btn){ btn.addEventListener('click', useButtonInput) });
+buttons.forEach(function(btn){ btn.addEventListener('mouseup', useButtonInput, true) });
 
 
 
@@ -260,3 +276,4 @@ function checkIfReady(inputObj) {
 	}
 	return false;
 }
+// })();
