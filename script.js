@@ -184,7 +184,7 @@ function handleEqualsOperation(input) {
 
 // -----------------Output display------------------------
 function updateDisplay(val) {
-	disp.value = val;
+	disp.value = val || "0";
 }
 
 function currentNumStringBuilder(nextInput, currentString) {
@@ -194,7 +194,7 @@ function currentNumStringBuilder(nextInput, currentString) {
 
 function clearCurrentNumStr() {
 	currentNumStr = "";
-	updateDisplay("0");
+	updateDisplay(currentNumStr);
 }
 
 function shortenCurrentNumStr() {
@@ -224,7 +224,14 @@ function toggleSign() {
 	if(getCurrentDispVal()[0] === "-") {
 		currentNumStr = currentNumStr.slice(1, currentNumStr.length);
 	} else {
-		currentNumStr = "-" + currentNumStr;
+		console.log("1")
+		if(currentInput.vals[currentInput.vals.length - 1]) {
+			console.log("2")
+			var stringBase = currentNumStr || currentInput.vals[currentInput.vals.length - 1];
+		} else {
+			stringBase = ""
+		}
+		currentNumStr = "-" + stringBase;
 	}
 	updateDisplay(currentNumStr);
 }
