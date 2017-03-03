@@ -189,7 +189,11 @@ function updateDisplay(val) {
 
 function currentNumStringBuilder(nextInput, currentString) {
 	var current = currentString || "";
-	return nextInput === "." && current.length === 0 ? "0." : current += nextInput;
+	if(nextInput.match(/\./)) {
+		return addDecimal(currentString);
+	} else {
+		return current += nextInput;
+	}
 }
 
 function clearCurrentNumStr() {
@@ -227,7 +231,7 @@ function toggleSign() {
 		if(currentInput.vals[currentInput.vals.length - 1]) {
 			var stringBase = currentNumStr || currentInput.vals[currentInput.vals.length - 1];
 		} else {
-			stringBase = ""
+			stringBase = "";
 		}
 		currentNumStr = "-" + stringBase;
 	}
@@ -239,6 +243,7 @@ function getCurrentDispVal() {
 }
 
 function addDecimal(str) {
+	if(str.length === 0) { str = "0"; }
 	return str.match(/\./) ? str : str + ".";
 }
 

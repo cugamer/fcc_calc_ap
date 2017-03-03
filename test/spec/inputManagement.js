@@ -94,7 +94,7 @@
 		});
 
 		it('should add a zero prior to the decimal point when the decimal is the first input', function() {
-			var decimal = currentNumStringBuilder('.');
+			var decimal = currentNumStringBuilder('.', '');
 			expect(decimal).toEqual('0.');
 			expect(currentNumStringBuilder('5', decimal)).toEqual('0.5');
 		});
@@ -102,9 +102,9 @@
 
 	describe('"checkIfReady" function', function() {
 		var inputTwo = inputConstructor();
-		// it('should return false for binary when input object has no values or opperations', function() {
-		// 	expect(checkIfReady(inputTwo)).toEqual(false);
-		// });
+		it('should return false for binary when input object has no values or opperations', function() {
+			expect(checkIfReady(inputTwo)).toEqual(false);
+		});
 		var inputThree = inputConstructor([111]);
 		it('should return false for binary when input object has one value and no opperations', function() {
 			expect(checkIfReady(inputThree)).toEqual(false);
@@ -144,6 +144,10 @@
 	});
 
 	describe('"addDecimal" function', function() {
+		it('should return zero plus decimal when given an empty string', function() {
+			expect(addDecimal('')).toEqual("0.");
+		});
+
 		it('should add a decimal point to the end of an input string that doesn\'t already have one', function() {
 			expect(addDecimal('11')).toEqual('11.');
 			expect(addDecimal('0')).toEqual('0.');
