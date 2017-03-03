@@ -89,10 +89,18 @@ body {
 	top: -18px;
 }
 
+.button-area .btn-row:last-child .calc-btn:active {
+	top: -17px;
+}
+
 .button-area .btn-row:last-child .equals-btn {
 	padding: 24px 0px 23px 0px;
 	position: relative;
 	top: -35px;
+}
+
+.button-area .btn-row:last-child .equals-btn:active {
+	top: -34px;
 }
 
 .op-btn {
