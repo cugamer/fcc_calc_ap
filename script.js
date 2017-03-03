@@ -77,6 +77,8 @@ function getButtonVal(btn) { return btn.dataset.button; }
 
 function useKeyInput(e) {
 	var key = e.key;
+	var okValues = /[\.\+\-\*\/\d]|Enter|Escape|Backspace/;
+	if(!key.match(okValues)) { return; }
 	if(!displayFocused) {
 		if(key === "Enter") {
 			key = "="; 
