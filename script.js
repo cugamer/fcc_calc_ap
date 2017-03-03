@@ -224,9 +224,7 @@ function toggleSign() {
 	if(getCurrentDispVal()[0] === "-") {
 		currentNumStr = currentNumStr.slice(1, currentNumStr.length);
 	} else {
-		console.log("1")
 		if(currentInput.vals[currentInput.vals.length - 1]) {
-			console.log("2")
 			var stringBase = currentNumStr || currentInput.vals[currentInput.vals.length - 1];
 		} else {
 			stringBase = ""
@@ -238,6 +236,10 @@ function toggleSign() {
 
 function getCurrentDispVal() {
 	return disp.value;
+}
+
+function addDecimal(str) {
+	return str.match(/\./) ? str : str + ".";
 }
 
 // -----------------Global variables------------------------

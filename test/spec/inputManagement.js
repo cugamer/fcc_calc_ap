@@ -142,4 +142,15 @@
 			expect(currentInput.opps.length).toEqual(0);
 		});
 	});
+
+	describe('"addDecimal" function', function() {
+		it('should add a decimal point to the end of an input string that doesn\'t already have one', function() {
+			expect(addDecimal('11')).toEqual('11.');
+			expect(addDecimal('0')).toEqual('0.');
+		});
+
+		it('should not add a decimal point to an input string that alredy has one', function() {
+			expect(addDecimal('1.1')).toEqual('1.1');
+		});
+	});
 })();
