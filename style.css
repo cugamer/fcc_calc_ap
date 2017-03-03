@@ -3,6 +3,16 @@
 body {
 	background-color: #666666;
 }
+
+h1 {
+	font-family: Arial;
+	color: #ffffff;
+	font-size: 24px;
+	font-weight: 500;
+	padding: 6px 0px;
+	text-align: center;
+}
+
 .calc-body {
 	background-color: #BBBBBB;
 	width: 200px;
