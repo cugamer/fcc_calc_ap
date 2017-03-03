@@ -29,6 +29,25 @@ h1 {
 	width: 176px;
 	text-align: right;
 	border-radius: 3px;
+	padding-bottom: 12px;
+}
+
+.working-input-area {
+	font-family: Arial;
+    font-size: 10px;
+    position: relative;
+    width: 170px;
+    right: -15px;
+    top: -23px;
+    height: 0px;
+}
+
+p.working-input {
+	width: 170px;
+	margin: 0;
+	height: 10px;
+	text-align: right;
+	overflow: hidden;
 }
 
 .button-area {
