@@ -182,6 +182,7 @@ function handleEqualsOperation(input) {
 		currentNumStr = "";
 	}
 	updateDisplay(callBinaryOp(currentInput).toString());
+	workingInputDisp();
 }
 
 // -----------------Output display------------------------
@@ -215,6 +216,7 @@ function allClear() {
 	inputHistory = archiveInputArr(currentInput, inputHistory);
 	currentInput = refreshCurrentInput();
 	clearCurrentNumStr();
+	clearWorkingInput();
 }
 
 function archiveInputArr(inputArr, history) {
@@ -249,6 +251,19 @@ function addDecimal(str) {
 	return str.match(/\./) ? str : str + ".";
 }
 
+function workingInputDisp() {
+	var lastVal = currentInput.vals[currentInput.vals.length - 1] || "";
+	var nextLast = currentInput.vals[currentInput.vals.length - 2] || "";
+	var lastInput = currentInput.lastInputVal.c[0] || "";
+	var lastOpp = currentInput.opps[currentInput.opps.length - 1] || "";
+	// workingInput.textContent = "fun fun fun"
+	workingInput.textContent = nextLast + " " + lastOpp + " " + lastInput + " = " + lastVal;
+}
+
+function clearWorkingInput() {
+	workingInput.textContent = "";
+}
+
 // -----------------Global variables------------------------
 var currentInput = inputConstructor();
 var currentNumStr = "";
@@ -256,6 +271,7 @@ var displayFocused = false;
 var buttons = document.querySelectorAll(".calc-btn");
 var disp = document.querySelector('.display');
 var inputHistory = [];
+var workingInput = document.querySelector('.working-input');
 
 // -----------------Event listeners------------------------
 disp.addEventListener("focus", function() { displayFocused = true; });
